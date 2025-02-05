@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using threetables;
 
 namespace stockexchange
 {
@@ -46,6 +47,12 @@ namespace stockexchange
             main main = new main();
             main.Show();
             this.Close();
+        }
+
+        private void label7_Click(object sender, EventArgs e)
+        {
+           QueryEdit QueryEdit = new QueryEdit();
+           QueryEdit.Show();
         }
     }
 }

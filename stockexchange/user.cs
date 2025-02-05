@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 using Microsoft.Data.SqlClient;
 
 namespace stockexchange
@@ -125,10 +126,37 @@ namespace stockexchange
             this.Close();
         }
 
-        private void dataGridViewOrders_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void dataGridViewOrders_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (e.RowIndex >= 0)
+            {
+                string assetName = dataGridViewOrders.Rows[e.RowIndex].Cells["Назва"].Value.ToString();
 
+                using (SqlConnection connection = new SqlConnection("Server=localhost;Database=BLACK;Integrated Security=True;TrustServerCertificate=True;"))
+                {
+                    connection.Open();
+
+                    string query = "SELECT asset_id FROM Assets WHERE name = @AssetName";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@AssetName", assetName);
+                        object result = command.ExecuteScalar();
+
+                        if (result != null)
+                        {
+                            int assetId = Convert.ToInt32(result);
+                            comments commentsForm = new comments(assetId);
+                            commentsForm.Show();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Помилка: актив не знайдено.");
+                        }
+                    }
+                }
+            }
         }
+
 
         private void button2_Click(object sender, EventArgs e)
         {

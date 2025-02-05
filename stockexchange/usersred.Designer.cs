@@ -38,6 +38,7 @@
             label1 = new Label();
             label3 = new Label();
             label4 = new Label();
+            buttonDelete = new Button();
             SuspendLayout();
             // 
             // label2
@@ -86,7 +87,7 @@
             // 
             // buttonSave
             // 
-            buttonSave.Location = new Point(309, 357);
+            buttonSave.Location = new Point(473, 349);
             buttonSave.Name = "buttonSave";
             buttonSave.Size = new Size(116, 45);
             buttonSave.TabIndex = 10;
@@ -134,11 +135,22 @@
             label4.TabIndex = 14;
             label4.Text = "Роль";
             // 
+            // buttonDelete
+            // 
+            buttonDelete.Location = new Point(191, 349);
+            buttonDelete.Name = "buttonDelete";
+            buttonDelete.Size = new Size(116, 45);
+            buttonDelete.TabIndex = 15;
+            buttonDelete.Text = "Видалити запис";
+            buttonDelete.UseVisualStyleBackColor = true;
+            buttonDelete.Click += buttonDelete_Click;
+            // 
             // usersred
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(buttonDelete);
             Controls.Add(label4);
             Controls.Add(label3);
             Controls.Add(label1);
@@ -169,5 +181,6 @@
         private Label label1;
         private Label label3;
         private Label label4;
+        private Button buttonDelete;
     }
 }

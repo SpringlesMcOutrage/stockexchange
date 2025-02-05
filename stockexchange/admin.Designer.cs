@@ -35,6 +35,7 @@
             label5 = new Label();
             label6 = new Label();
             pictureBox1 = new PictureBox();
+            label7 = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
@@ -74,7 +75,7 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI", 12F);
-            label4.Location = new Point(156, 322);
+            label4.Location = new Point(156, 294);
             label4.Name = "label4";
             label4.Size = new Size(61, 21);
             label4.TabIndex = 3;
@@ -85,7 +86,7 @@
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI", 12F);
-            label5.Location = new Point(153, 231);
+            label5.Location = new Point(153, 213);
             label5.Name = "label5";
             label5.Size = new Size(64, 21);
             label5.TabIndex = 4;
@@ -113,11 +114,23 @@
             pictureBox1.TabIndex = 8;
             pictureBox1.TabStop = false;
             // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Font = new Font("Segoe UI", 12F);
+            label7.Location = new Point(156, 370);
+            label7.Name = "label7";
+            label7.Size = new Size(155, 21);
+            label7.TabIndex = 9;
+            label7.Text = "Виконати SQL запит";
+            label7.Click += label7_Click;
+            // 
             // admin
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(label7);
             Controls.Add(pictureBox1);
             Controls.Add(label6);
             Controls.Add(label5);
@@ -143,5 +156,6 @@
         private Label label5;
         private Label label6;
         private PictureBox pictureBox1;
+        private Label label7;
     }
 }

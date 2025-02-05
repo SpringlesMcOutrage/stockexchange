@@ -24,6 +24,7 @@ namespace stockexchange
             {
                 LoadExchangeDetails(exchangeId.Value);
             }
+            buttonDelete.Visible = exchangeId.HasValue;
         }
         private void LoadExchangeDetails(int exchangeId)
         {
@@ -131,5 +132,83 @@ namespace stockexchange
         {
             this.Close();
         }
+        private void buttonDeleteExchange_Click(object sender, EventArgs e)
+        {
+            if (!exchangeId.HasValue)
+                return;
+
+            var confirmResult = MessageBox.Show("Ви впевнені, що хочете видалити цю біржу?",
+                                                "Підтвердження видалення",
+                                                MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+            if (confirmResult == DialogResult.Yes)
+            {
+                string connectionString = "Server=localhost;Database=BLACK;Integrated Security=True;TrustServerCertificate=True;";
+
+                try
+                {
+                    using (SqlConnection connection = new SqlConnection(connectionString))
+                    {
+                        connection.Open();
+                        SqlTransaction transaction = connection.BeginTransaction();
+
+                        try
+                        {
+                            string deleteQuery = "DELETE FROM Exchanges WHERE exchange_id = @exchangeId";
+                            using (SqlCommand command = new SqlCommand(deleteQuery, connection, transaction))
+                            {
+                                command.Parameters.AddWithValue("@exchangeId", exchangeId.Value);
+                                command.ExecuteNonQuery();
+                            }
+
+                            string createTempTable = @"
+                        CREATE TABLE Exchanges_New (
+                            exchange_id INT IDENTITY(1,1) PRIMARY KEY, 
+                            country NVARCHAR(100) NOT NULL,          
+                            currency NVARCHAR(50) NOT NULL,           
+                            name NVARCHAR(200) NOT NULL,              
+                            trading_fee REAL NOT NULL
+                        );";
+                            using (SqlCommand command = new SqlCommand(createTempTable, connection, transaction))
+                            {
+                                command.ExecuteNonQuery();
+                            }
+                            string copyData = @"
+                        INSERT INTO Exchanges_New (country, currency, name, trading_fee)
+                        SELECT country, currency, name, trading_fee FROM Exchanges ORDER BY exchange_id;";
+                            using (SqlCommand command = new SqlCommand(copyData, connection, transaction))
+                            {
+                                command.ExecuteNonQuery();
+                            }
+
+                            string dropOldTable = "DROP TABLE Exchanges;";
+                            using (SqlCommand command = new SqlCommand(dropOldTable, connection, transaction))
+                            {
+                                command.ExecuteNonQuery();
+                            }
+                            string renameTable = "EXEC sp_rename 'Exchanges_New', 'Exchanges';";
+                            using (SqlCommand command = new SqlCommand(renameTable, connection, transaction))
+                            {
+                                command.ExecuteNonQuery();
+                            }
+
+                            transaction.Commit();
+                            MessageBox.Show("Біржу успішно видалено.");
+                            this.Close();
+                        }
+                        catch (Exception ex)
+                        {
+                            transaction.Rollback();
+                            MessageBox.Show($"Помилка видалення біржі: {ex.Message}");
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Помилка підключення до бази даних: {ex.Message}");
+                }
+            }
+        }
+
     }
 }

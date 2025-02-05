@@ -38,6 +38,7 @@
             label3 = new Label();
             label4 = new Label();
             label5 = new Label();
+            buttonDelete = new Button();
             SuspendLayout();
             // 
             // label2
@@ -85,7 +86,7 @@
             // 
             // buttonSave
             // 
-            buttonSave.Location = new Point(348, 372);
+            buttonSave.Location = new Point(477, 368);
             buttonSave.Name = "buttonSave";
             buttonSave.Size = new Size(124, 23);
             buttonSave.TabIndex = 8;
@@ -133,11 +134,22 @@
             label5.TabIndex = 12;
             label5.Text = "Комісія";
             // 
+            // buttonDelete
+            // 
+            buttonDelete.Location = new Point(208, 368);
+            buttonDelete.Name = "buttonDelete";
+            buttonDelete.Size = new Size(136, 23);
+            buttonDelete.TabIndex = 17;
+            buttonDelete.Text = "Видалити запис";
+            buttonDelete.UseVisualStyleBackColor = true;
+            buttonDelete.Click += buttonDeleteExchange_Click;
+            // 
             // ExchangesRed
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(buttonDelete);
             Controls.Add(label5);
             Controls.Add(label4);
             Controls.Add(label3);
@@ -168,5 +180,6 @@
         private Label label3;
         private Label label4;
         private Label label5;
+        private Button buttonDelete;
     }
 }

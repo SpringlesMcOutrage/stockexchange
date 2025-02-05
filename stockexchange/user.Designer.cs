@@ -70,7 +70,7 @@
             dataGridViewOrders.ReadOnly = true;
             dataGridViewOrders.Size = new Size(431, 197);
             dataGridViewOrders.TabIndex = 2;
-            dataGridViewOrders.CellContentClick += dataGridViewOrders_CellContentClick;
+            dataGridViewOrders.CellClick += dataGridViewOrders_CellClick;
             // 
             // label3
             // 
